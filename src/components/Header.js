@@ -1,4 +1,3 @@
-
 // Komponenten Header visar antingen en "Login"-knapp eller en "Logout"-knapp beroende på om användaren är inloggad.
 // auth.token används för att avgöra användarens inloggningsstatus.
 // auth.logout kallas för att logga ut användaren och rensa deras token när utloggningslänken klickas.

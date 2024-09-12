@@ -9,7 +9,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #0a192f;
     --foreground: #ededed;
   }
 }
@@ -26,60 +26,9 @@ body {
   }
 }
 
-.item-card {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px 0;
-  width: 300px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-}
-
-.item-card:hover {
-  transform: translateY(-5px);
-}
-
-.item-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.item-card__title {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.item-card__delete-btn {
-  background-color: #ff4d4f;
-  border: none;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.item-card__delete-btn:hover {
-  background-color: #d9363e;
-}
-
-.item-card__detail {
-  font-size: 0.9rem;
-  color: #555;
-  margin: 4px 0;
-}
-
-.item-card__label {
-  font-weight: 600;
-}
-
-
 /* Block: form */
 .form {
+  background-color: white;
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
@@ -95,6 +44,7 @@ body {
 
 /* Element: form__label */
 .form__label {
+  color: black;
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
@@ -107,6 +57,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  color: black;
 }
 
 /* Element: form__button */
@@ -133,6 +84,7 @@ body {
 
 /* Element: form__text */
 .form__text {
+  color: black;
   text-align: center;
   margin: 10px 0;
 }
@@ -201,4 +153,86 @@ h2{
   color: black;
   font-size: large;
   font-weight: bold;
+  
+}
+.item-card {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: black;
+}
+
+.item-card__header, .item-card__details, .item-card__edit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-card__title {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.item-card__detail {
+  margin-bottom: 8px;
+}
+
+.item-card__label {
+  font-weight: bold;
+}
+
+.item-card__input {
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.item-card__buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.item-card__edit-btn, .item-card__delete-btn, .item-card__save-btn, .item-card__cancel-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.item-card__edit-btn {
+  background-color: #007bff;
+}
+
+.item-card__edit-btn:hover {
+  background-color: #0056b3;
+}
+
+.item-card__delete-btn {
+  background-color: #dc3545;
+}
+
+.item-card__delete-btn:hover {
+  background-color: #c82333;
+}
+
+.item-card__save-btn {
+  background-color: #28a745;
+}
+
+.item-card__save-btn:hover {
+  background-color: #218838;
+}
+
+.item-card__cancel-btn {
+  background-color: #6c757d;
+}
+
+.item-card__cancel-btn:hover {
+  background-color: #5a6268;
 }

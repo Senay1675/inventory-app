@@ -1,115 +1,115 @@
-// Komponenten AuthForm hanterar både inloggning och registrering beroende på tillståndet isLogin. 
-// Den skickar inloggnings- eller registreringsdata till servern, hanterar svar och fel, 
+// Komponenten AuthForm hanterar både inloggning och registrering beroende på tillståndet isLogin.
+// Den skickar inloggnings- eller registreringsdata till servern, hanterar svar och fel,
 // och omdirigerar användaren vid framgång.
 
 "use client";
 
 import { useState } from "react";
-
 import { useRouter } from "next/navigation";
-
 import { useAuth } from "@/context/auth";
 
-function AuthForm() { 
-
-    const router = useRouter()
-    const auth = useAuth()
+function AuthForm() {
+  const router = useRouter();
+  const auth = useAuth();
 
   const [email, setEmail] = useState("alice.smith@example.com");
   const [password, setPassword] = useState("securepassword123");
   const [name, setName] = useState("");
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const [isLogin, setIsLogin] = useState(true);
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("")
+    setError(""); // Rensar eventuellt tidigare fel
 
-    console.log({
-        email,
-        password,
-        name,
-        isLogin,
-      });
-    const url = isLogin ? "/api/auth/login" : "/api/auth/register"
-    const response = await fetch(url,{
+    const url = isLogin ? "/api/auth/login" : "/api/auth/register";
+
+    try {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email,
-            password,
-            name
-        })
-    })
+          email,
+          password,
+          name: !isLogin ? name : undefined, // Namn behövs bara för registrering
+        }),
+      });
 
-    if(response.ok) {
-        const data = await response.json();
+      const data = await response.json();
 
-        console.log("data", data)
-        localStorage.setItem("@library/token", data.token)
-        auth.setToken(data.token)
-        
-        router.push("/items")
-        return
+      if (!response.ok) {
+        // Hantera fel från backend
+        if (data.error.includes("email")) {
+          setError("Invalid email format or email already exists");
+        } else if (data.error.includes("password")) {
+          setError("Password is too weak or incorrect");
+        } else if (data.error.includes("name")) {
+          setError("Name is required for registration or already exists");
+        } else {
+          setError("Something went wrong. Please try again.");
+        }
+        return;
+      }
+
+      // Om inloggning/registrering lyckades
+      localStorage.setItem("@library/token", data.token);
+      auth.setToken(data.token);
+      router.push("/items");
+    } catch (err) {
+      // Hantera nätverksfel eller oväntade fel
+      setError("An unexpected error occurred. Please try again.");
     }
-    setError("Invalid login credentials")
   }
 
   return (
     <div>
-      AuthForm
-      <form class="form bg-black" onSubmit={handleSubmit}>
-        <div class="form__group">
-          <label class="form__label">Email</label>
+      <form className="form bg-black" onSubmit={handleSubmit}>
+        <div className="form__group">
+          <label className="form__label">Email</label>
           <input
-            class="form__input"
+            className="form__input"
             type="email"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          ></input>
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
-        <div class="form__group">
-          <label class="form__label">Password</label>
+        <div className="form__group">
+          <label className="form__label">Password</label>
           <input
-            class="form__input"
+            className="form__input"
             type="password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          ></input>
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
         {!isLogin && (
-          <div class="form__group">
-            <label class="form__label">Name</label>
+          <div className="form__group">
+            <label className="form__label">Name</label>
             <input
-              class="form__input"
+              className="form__input"
               type="text"
               value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            ></input>
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
         )}
-        {error && <p className="text-red-500">
-            {error}
-        </p>}
-        <button class="form__button form__button--primary">
+
+        {/* Visar felmeddelanden */}
+        {error && <p className="text-red-500">{error}</p>}
+
+        <button className="form__button form__button--primary">
           {isLogin ? "Login" : "Register"}
         </button>
-        <p class="form__text">...or</p>
-        <div class="form__group">
+
+        <p className="form__text">...or</p>
+
+        <div className="form__group">
           <button
-            class="form__button form__button--secondary"
+            className="form__button form__button--secondary"
             type="button"
-            onClick={(e) => {
-              setIsLogin(!isLogin);
-            }}
+            onClick={() => setIsLogin(!isLogin)}
           >
             {!isLogin ? "Login" : "Register"}
           </button>

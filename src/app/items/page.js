@@ -20,7 +20,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <ItemForm /> {/* Bytt ut BookForm mot ItemForm */}
+      {/* Bytt ut BookForm mot ItemForm */}
       Items
       <section className="flex flex-col items-center justify-center gap-2">
         <ItemList />
